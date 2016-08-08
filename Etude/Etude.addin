@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Etude exporter for Allegro</Text>
+    <Description>Export three.js JSON scene for Allegro</Description>
+    <Assembly>Etude.dll</Assembly>
+    <FullClassName>Etude.Command</FullClassName>
+    <ClientId>30d6d621-6e43-4e47-bc78-b4f3742f7212</ClientId>
+    <VendorId>TWH</VendorId>
+    <VendorDescription>ThoughtWorks, Hyderabad</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Etude</Name>
+    <Assembly>Etude.dll</Assembly>
+    <FullClassName>Etude.App</FullClassName>
+    <ClientId>29b6fa8c-524f-464c-bb11-8bf11ed63868</ClientId>
+    <VendorId>TBC_</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

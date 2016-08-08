@@ -1,21 +1,21 @@
-# RvtVa3c
+# Etude
 
-A Revit custom exporter add-in generating JSON output for the [vA3C](http://va3c.github.io) [three.js](http://threejs.org) AEC viewer.
+A Revit custom exporter add-in generating JSON output for the Allegro.
 
 
 ## Setup, Compilation and Installation
 
-RvtVa3c is a standard Revit add-in application.
+Etude is a standard Revit add-in application.
 
 It is installed in the standard manner, i.e., by copying two files to the standard Revit Add-Ins folder:
 
-- The .NET assembly DLL RvtVa3c.dll
-- The add-in manifest RvtVa3c.addin
+- The .NET assembly DLL Etude.dll
+- The add-in manifest Etude.addin
 
 In order to generate the DLL, you download and compile the Visual Studio solution:
 
-- Download or clone the [RvtVa3c GitHub repository](https://github.com/va3c/RvtVa3c).
-- Open the solution file RvtVa3c.sln in Visual Studio 2012 or later.
+- Download or clone the [Etude GitHub repository](https://github.com/anupthegit/Etude).
+- Open the solution file Etude.sln in Visual Studio 2012 or later.
 - Build the solution locally:
     - Add references to the Revit API assembly files RevitAPI.dll and RevitAPIUI.dll, located in your Revit installation directory, e.g.,
 
@@ -32,34 +32,3 @@ This will open the Revit installation you referred to, and install the plugin, w
 And wonderfully exports the your Revit model to a JSON file.
 
 For more details, please refer to the [Revit API Getting Started](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2) material, especially the DevTV and My First Revit Plugin tutorials.
-
-
-
-## Tools and Technologies
-
-* [three.js JavaScript 3D Library](https://github.com/mrdoob/three.js)
-* [vA3C three.js AEC Viewer](http://va3c.github.io)
-
-
-## Further Reading
-
-* [AEC Hackathon – From the Midst of the Fray](http://thebuildingcoder.typepad.com/blog/2014/05/aec-hackathon-from-the-midst-of-the-fray.html)
-* [RvtVa3c – Revit Va3c Generic AEC Viewer JSON Export](http://thebuildingcoder.typepad.com/blog/2014/05/rvtva3c-revit-va3c-generic-aec-viewer-json-export.html)
-* [RvtVa3c Assembly Resolver](http://thebuildingcoder.typepad.com/blog/2014/05/rvtva3c-assembly-resolver.html)
-* [Three.js AEC Viewer Progress](http://thebuildingcoder.typepad.com/blog/2014/08/threejs-aec-viewer-progress-on-two-fronts.html#4)
-* [Integrating RvtVa3c into Three.js](http://thebuildingcoder.typepad.com/blog/2014/09/adn-labs-xtra-on-github-and-rvtva3c-in-threejs.html#5)
-* [Custom User Settings Storage and RvtVa3c Update](http://thebuildingcoder.typepad.com/blog/2014/10/berlin-hackathon-results-3d-viewer-and-web-news.html#7)
-* [RvtVa3c Enhancement Filters Parameters](http://thebuildingcoder.typepad.com/blog/2015/03/state-of-the-view-and-data-api-va3c-and-edge-ids.html#3)
-
-
-## Wishlist
-
-* Texture support
-* Improved handling of normals to gracefully display non-planar surfaces
-
-
-## Authors
-
-Implemented by Matt Mason and Jeremy Tammik,
-[The Building Coder](http://thebuildingcoder.typepad.com), Autodesk Inc.,
-at the New York AEC Hackathon in May 2014.

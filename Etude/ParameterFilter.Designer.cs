@@ -1,4 +1,4 @@
-﻿namespace RvtVa3c
+﻿namespace Etude
 {
     partial class ParameterFilter
     {
