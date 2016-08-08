@@ -620,14 +620,6 @@ namespace RvtVa3c
       return false;
     }
 
-    public void OnDaylightPortal( DaylightPortalNode node )
-    {
-      Debug.WriteLine( "OnDaylightPortal: " + node.NodeName );
-      Asset asset = node.GetAsset();
-      Debug.WriteLine( "OnDaylightPortal: Asset:"
-        + ( ( asset != null ) ? asset.Name : "Null" ) );
-    }
-
     public void OnRPC( RPCNode node )
     {
       Debug.WriteLine( "OnRPC: " + node.NodeName );
