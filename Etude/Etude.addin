@@ -14,7 +14,7 @@
     <Assembly>Etude.dll</Assembly>
     <FullClassName>Etude.App</FullClassName>
     <ClientId>29b6fa8c-524f-464c-bb11-8bf11ed63868</ClientId>
-    <VendorId>TBC_</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+    <VendorId>TWH</VendorId>
+    <VendorDescription>ThoughtWorks, Hyderabad</VendorDescription>
   </AddIn>
 </RevitAddIns>
