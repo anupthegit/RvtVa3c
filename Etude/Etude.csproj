@@ -48,8 +48,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -72,7 +73,11 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="EtudeGeometry.cs" />
+    <Compile Include="EtudeGeometryData.cs" />
     <Compile Include="EtudeMaterial.cs" />
+    <Compile Include="EtudeObject.cs" />
+    <Compile Include="Metadata.cs" />
     <Compile Include="ParameterFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,13 +87,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="Va3cExportContext.cs" />
-    <Compile Include="Va3cObject.cs" />
-    <Compile Include="Va3cScene.cs" />
+    <Compile Include="EtudeExportContext.cs" />
+    <Compile Include="EtudeContainer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Etude.addin" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ParameterFilter.resx">

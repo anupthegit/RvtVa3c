@@ -234,15 +234,15 @@ namespace Etude
     string _filename;
     EtudeContainer _container;
     Dictionary<string, EtudeMaterial> _materials;
-    Dictionary<string, EtudeContainer.EtudeObject> _objects;
-    Dictionary<string, EtudeContainer.EtudeGeometry> _geometries;
+    Dictionary<string, EtudeObject> _objects;
+    Dictionary<string, EtudeGeometry> _geometries;
 
-    EtudeContainer.EtudeObject _currentElement;
+    EtudeObject _currentElement;
 
     // Keyed on material uid to handle several materials per element:
 
-    Dictionary<string, EtudeContainer.EtudeObject> _currentObject;
-    Dictionary<string, EtudeContainer.EtudeGeometry> _currentGeometry;
+    Dictionary<string, EtudeObject> _currentObject;
+    Dictionary<string, EtudeGeometry> _currentGeometry;
     Dictionary<string, VertexLookupInt> _vertices;
 
     Stack<ElementId> _elementStack = new Stack<ElementId>();
@@ -252,7 +252,7 @@ namespace Etude
 
     public string myjs = null;
 
-    EtudeContainer.EtudeObject CurrentObjectPerMaterial
+    EtudeObject CurrentObjectPerMaterial
     {
       get
       {
@@ -260,7 +260,7 @@ namespace Etude
       }
     }
 
-    EtudeContainer.EtudeGeometry CurrentGeometryPerMaterial
+    EtudeGeometry CurrentGeometryPerMaterial
     {
       get
       {
@@ -323,36 +323,36 @@ namespace Etude
       }
       _currentMaterialUid = uidMaterial;
 
-      string uid_per_material = _currentElement.uuid + "-" + uidMaterial;
+      string uid_per_material = _currentElement.UUID + "-" + uidMaterial;
 
       if( !_currentObject.ContainsKey( uidMaterial ) )
       {
         Debug.Assert( !_currentGeometry.ContainsKey( uidMaterial ), "expected same keys in both" );
 
-        _currentObject.Add( uidMaterial, new EtudeContainer.EtudeObject() );
-        CurrentObjectPerMaterial.name = _currentElement.name;
-        CurrentObjectPerMaterial.geometry = uid_per_material;
-        CurrentObjectPerMaterial.material = _currentMaterialUid;
-        CurrentObjectPerMaterial.matrix = new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
-        CurrentObjectPerMaterial.type = "Mesh";
-        CurrentObjectPerMaterial.uuid = uid_per_material;
+        _currentObject.Add( uidMaterial, new EtudeObject() );
+        CurrentObjectPerMaterial.Name = _currentElement.Name;
+        CurrentObjectPerMaterial.Geometry = uid_per_material;
+        CurrentObjectPerMaterial.Material = _currentMaterialUid;
+        CurrentObjectPerMaterial.Matrix = new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+        CurrentObjectPerMaterial.Type = "Mesh";
+        CurrentObjectPerMaterial.UUID = uid_per_material;
       }
 
       if( !_currentGeometry.ContainsKey( uidMaterial ) )
       {
-        _currentGeometry.Add( uidMaterial, new EtudeContainer.EtudeGeometry() );
-        CurrentGeometryPerMaterial.uuid = uid_per_material;
-        CurrentGeometryPerMaterial.type = "Geometry";
-        CurrentGeometryPerMaterial.data = new EtudeContainer.EtudeGeometryData();
-        CurrentGeometryPerMaterial.data.faces = new List<int>();
-        CurrentGeometryPerMaterial.data.vertices = new List<double>();
-        CurrentGeometryPerMaterial.data.normals = new List<double>();
-        CurrentGeometryPerMaterial.data.uvs = new List<double>();
-        CurrentGeometryPerMaterial.data.visible = true;
-        CurrentGeometryPerMaterial.data.castShadow = true;
-        CurrentGeometryPerMaterial.data.receiveShadow = false;
-        CurrentGeometryPerMaterial.data.doubleSided = true;
-        CurrentGeometryPerMaterial.data.scale = 1.0;
+        _currentGeometry.Add( uidMaterial, new EtudeGeometry() );
+        CurrentGeometryPerMaterial.UUID = uid_per_material;
+        CurrentGeometryPerMaterial.Type = "Geometry";
+        CurrentGeometryPerMaterial.Data = new EtudeGeometryData();
+        CurrentGeometryPerMaterial.Data.Faces = new List<int>();
+        CurrentGeometryPerMaterial.Data.Vertices = new List<double>();
+        CurrentGeometryPerMaterial.Data.Normals = new List<double>();
+        CurrentGeometryPerMaterial.Data.UVs = new List<double>();
+        CurrentGeometryPerMaterial.Data.Visible = true;
+        CurrentGeometryPerMaterial.Data.CastShadow = true;
+        CurrentGeometryPerMaterial.Data.ReceiveShadow = false;
+        CurrentGeometryPerMaterial.Data.DoubleSided = true;
+        CurrentGeometryPerMaterial.Data.Scale = 1.0;
       }
 
       if( !_vertices.ContainsKey( uidMaterial ) )
@@ -370,27 +370,27 @@ namespace Etude
     public bool Start()
     {
       _materials = new Dictionary<string, EtudeMaterial>();
-      _geometries = new Dictionary<string, EtudeContainer.EtudeGeometry>();
-      _objects = new Dictionary<string, EtudeContainer.EtudeObject>();
+      _geometries = new Dictionary<string, EtudeGeometry>();
+      _objects = new Dictionary<string, EtudeObject>();
 
       _transformationStack.Push( Transform.Identity );
 
       _container = new EtudeContainer();
 
-      _container.metadata = new EtudeContainer.Metadata();
-      _container.metadata.type = "Object";
-      _container.metadata.version = 4.3;
-      _container.metadata.generator = "Etude Revit Etude exporter";
-      _container.geometries = new List<EtudeContainer.EtudeGeometry>();
+      _container.Metadata = new Metadata();
+      _container.Metadata.Type = "Object";
+      _container.Metadata.Version = 4.3;
+      _container.Metadata.Generator = "Etude Revit Etude exporter";
+      _container.Geometries = new List<EtudeGeometry>();
 
-      _container.obj = new EtudeContainer.EtudeObject();
-      _container.obj.uuid = _doc.ActiveView.UniqueId;
-      _container.obj.name = "BIM " + _doc.Title;
-      _container.obj.type = "Scene";
+      _container.Object = new EtudeObject();
+      _container.Object.UUID = _doc.ActiveView.UniqueId;
+      _container.Object.Name = "BIM " + _doc.Title;
+      _container.Object.Type = "Scene";
 
       // Scale entire BIM from millimetres to metres.
 
-      _container.obj.matrix = new double[] { 
+      _container.Object.Matrix = new double[] { 
         _scale_bim, 0, 0, 0, 
         0, _scale_bim, 0, 0, 
         0, 0, _scale_bim, 0, 
@@ -403,11 +403,11 @@ namespace Etude
     {
       // Finish populating scene
 
-      _container.materials = _materials.Values.ToList();
+      _container.Materials = _materials.Values.ToList();
 
-      _container.geometries = _geometries.Values.ToList();
+      _container.Geometries = _geometries.Values.ToList();
 
-      _container.obj.children = _objects.Values.ToList();
+      _container.Object.Children = _objects.Values.ToList();
 
       // Serialise scene
 
@@ -550,10 +550,10 @@ namespace Etude
         v3 = CurrentVerticesPerMaterial.AddVertex( new PointInt(
           pts[facet.V3], _switch_coordinates ) );
 
-        CurrentGeometryPerMaterial.data.faces.Add( 0 );
-        CurrentGeometryPerMaterial.data.faces.Add( v1 );
-        CurrentGeometryPerMaterial.data.faces.Add( v2 );
-        CurrentGeometryPerMaterial.data.faces.Add( v3 );
+        CurrentGeometryPerMaterial.Data.Faces.Add( 0 );
+        CurrentGeometryPerMaterial.Data.Faces.Add( v1 );
+        CurrentGeometryPerMaterial.Data.Faces.Add( v2 );
+        CurrentGeometryPerMaterial.Data.Faces.Add( v3 );
       }
     }
 
@@ -686,16 +686,16 @@ namespace Etude
       // multiple current child objects each with a 
       // separate current geometry.
 
-      _currentElement = new EtudeContainer.EtudeObject();
+      _currentElement = new EtudeObject();
 
-      _currentElement.name = Util.ElementDescription( e );
-      _currentElement.material = _currentMaterialUid;
-      _currentElement.matrix = new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
-      _currentElement.type = "RevitElement";
-      _currentElement.uuid = uid;
+      _currentElement.Name = Util.ElementDescription( e );
+      _currentElement.Material = _currentMaterialUid;
+      _currentElement.Matrix = new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+      _currentElement.Type = "RevitElement";
+      _currentElement.UUID = uid;
 
-      _currentObject = new Dictionary<string, EtudeContainer.EtudeObject>();
-      _currentGeometry = new Dictionary<string, EtudeContainer.EtudeGeometry>();
+      _currentObject = new Dictionary<string, EtudeObject>();
+      _currentGeometry = new Dictionary<string, EtudeGeometry>();
       _vertices = new Dictionary<string, VertexLookupInt>();
 
       if( null != e.Category
@@ -736,34 +736,34 @@ namespace Etude
 
       int n = materials.Count;
 
-      _currentElement.children = new List<EtudeContainer.EtudeObject>( n );
+      _currentElement.Children = new List<EtudeObject>( n );
 
       foreach( string material in materials )
       {
-        EtudeContainer.EtudeObject obj = _currentObject[material];
-        EtudeContainer.EtudeGeometry geo = _currentGeometry[material];
+        EtudeObject obj = _currentObject[material];
+        EtudeGeometry geo = _currentGeometry[material];
 
         foreach( KeyValuePair<PointInt, int> p in _vertices[material] )
         {
-          geo.data.vertices.Add( _scale_vertex * p.Key.X );
-          geo.data.vertices.Add( _scale_vertex * p.Key.Y );
-          geo.data.vertices.Add( _scale_vertex * p.Key.Z );
+          geo.Data.Vertices.Add( _scale_vertex * p.Key.X );
+          geo.Data.Vertices.Add( _scale_vertex * p.Key.Y );
+          geo.Data.Vertices.Add( _scale_vertex * p.Key.Z );
         }
-        obj.geometry = geo.uuid;
-        _geometries.Add( geo.uuid, geo );
-        _currentElement.children.Add( obj );
+        obj.Geometry = geo.UUID;
+        _geometries.Add( geo.UUID, geo );
+        _currentElement.Children.Add( obj );
       }
 
       Dictionary<string, string> d
         = Util.GetElementProperties( e, true );
 
-      _currentElement.userData = d;
+      _currentElement.UserData = d;
 
       // Add Revit element unique id to user data dict.
 
-      _currentElement.userData.Add( "revit_id", uid );
+      _currentElement.UserData.Add( "revit_id", uid );
 
-      _objects.Add( _currentElement.uuid, _currentElement );
+      _objects.Add( _currentElement.UUID, _currentElement );
 
       _elementStack.Pop();
     }
@@ -773,8 +773,8 @@ namespace Etude
       // This method is invoked only if the 
       // custom exporter was set to include faces.
 
-      Debug.Assert( false, "we set exporter.IncludeFaces false" );
-      Debug.WriteLine( "  OnFaceBegin: " + node.NodeName );
+      //Debug.Assert( false, "we set exporter.IncludeFaces false" );
+      //Debug.WriteLine( "  OnFaceBegin: " + node.NodeName );
       return RenderNodeAction.Proceed;
     }
 
@@ -783,8 +783,8 @@ namespace Etude
       // This method is invoked only if the 
       // custom exporter was set to include faces.
 
-      Debug.Assert( false, "we set exporter.IncludeFaces false" );
-      Debug.WriteLine( "  OnFaceEnd: " + node.NodeName );
+      //Debug.Assert( false, "we set exporter.IncludeFaces false" );
+      //Debug.WriteLine( "  OnFaceEnd: " + node.NodeName );
       // Note: This method is invoked even for faces that were skipped.
     }
 

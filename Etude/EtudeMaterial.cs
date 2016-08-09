@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,27 +12,29 @@ namespace Etude
     /// </summary>
     public class EtudeMaterial
     {
-        [DataMember(Name = "uuid")]
+        [JsonProperty("uuid")]
         public string UUID { get; set; }
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
-        [DataMember(Name = "type")]
+        [JsonProperty("type")]
         public string Type { get; set; } = "MeshPhongMaterial";
-        [DataMember(Name = "color")]
+        [JsonProperty("color")]
         public int Color { get; set; } = 0xFFFFFF;
-        [DataMember(Name = "ambient")]
+        [JsonProperty("ambient")]
         public int Ambient { get; set; } = 0xFFFFFF;
-        [DataMember(Name = "emissive")]
+        [JsonProperty("emissive")]
         public int Emissive { get; set; } = 1;
-        [DataMember(Name = "specular")]
+        [JsonProperty("specular")]
         public int Specular { get; set; } = 0x111111;
-        [DataMember(Name = "shininess")]
+        [JsonProperty("shininess")]
         public int Shininess { get; set; } = 30;
-        [DataMember(Name = "opacity")]
+        [JsonProperty("opacity")]
         public double Opacity { get; set; } = 1;
-        [DataMember(Name = "transparent")]
+        [JsonProperty("transparent")]
         public bool Transparent { get; set; }
-        [DataMember(Name = "wireframe")]
+        [JsonProperty("wireframe")]
         public bool Wireframe { get; set; }
+        [JsonProperty("map")]
+        public string Map { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Linq;
 using Xunit;
+using Newtonsoft.Json;
 
 namespace EtudeTests
 {
@@ -23,6 +24,7 @@ namespace EtudeTests
             Assert.Equal(material.Opacity, 1);
             Assert.False(material.Transparent);
             Assert.False(material.Wireframe);
+            Assert.Null(material.Map);
         }
 
         [Theory]
@@ -37,12 +39,13 @@ namespace EtudeTests
         [InlineData("Opacity", "opacity")]
         [InlineData("Transparent", "transparent")]
         [InlineData("Wireframe", "wireframe")]
+        [InlineData("Map", "map")]
         public void ItHasProperDataMemberNames(string propertyName, string jsonName)
         {
             var attribute = typeof(EtudeMaterial).GetProperty(propertyName)
-                .GetCustomAttributes(typeof(DataMemberAttribute), false)
-                .OfType<DataMemberAttribute>().FirstOrDefault();
-            Assert.Equal(attribute.Name, jsonName);
+                .GetCustomAttributes(typeof(JsonPropertyAttribute), false)
+                .OfType<JsonPropertyAttribute>().FirstOrDefault();
+            Assert.Equal(attribute.PropertyName, jsonName);
         }
     }
 }
