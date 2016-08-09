@@ -233,7 +233,7 @@ namespace Etude
     Document _doc;
     string _filename;
     EtudeContainer _container;
-    Dictionary<string, EtudeContainer.EtudeMaterial> _materials;
+    Dictionary<string, EtudeMaterial> _materials;
     Dictionary<string, EtudeContainer.EtudeObject> _objects;
     Dictionary<string, EtudeContainer.EtudeGeometry> _geometries;
 
@@ -299,25 +299,25 @@ namespace Etude
         Material material = _doc.GetElement(
           uidMaterial ) as Material;
 
-        EtudeContainer.EtudeMaterial m
-          = new EtudeContainer.EtudeMaterial();
+        EtudeMaterial m
+          = new EtudeMaterial();
 
-        //m.metadata = new EtudeContainer.EtudeMaterialMetadata();
+        //m.metadata = new EtudeMaterialMetadata();
         //m.metadata.type = "material";
         //m.metadata.version = 4.2;
         //m.metadata.generator = "Etude 2015.0.0.0";
 
-        m.uuid = uidMaterial;
-        m.name = material.Name;
-        m.type = "MeshPhongMaterial";
-        m.color = Util.ColorToInt( material.Color );
-        m.ambient = m.color;
-        m.emissive = 0;
-        m.specular = m.color;
-        m.shininess = 1; // todo: does this need scaling to e.g. [0,100]?
-        m.opacity = 0.01 * (double) ( 100 - material.Transparency ); // Revit has material.Transparency in [0,100], three.js expects opacity in [0.0,1.0]
-        m.transparent = 0 < material.Transparency;
-        m.wireframe = false;
+        m.UUID = uidMaterial;
+        m.Name = material.Name;
+        m.Type = "MeshPhongMaterial";
+        m.Color = Util.ColorToInt( material.Color );
+        m.Ambient = m.Color;
+        m.Emissive = 0;
+        m.Specular = m.Color;
+        m.Shininess = 1; // todo: does this need scaling to e.g. [0,100]?
+        m.Opacity = 0.01 * (double) ( 100 - material.Transparency ); // Revit has material.Transparency in [0,100], three.js expects opacity in [0.0,1.0]
+        m.Transparent = 0 < material.Transparency;
+        m.Wireframe = false;
 
         _materials.Add( uidMaterial, m );
       }
@@ -369,7 +369,7 @@ namespace Etude
 
     public bool Start()
     {
-      _materials = new Dictionary<string, EtudeContainer.EtudeMaterial>();
+      _materials = new Dictionary<string, EtudeMaterial>();
       _geometries = new Dictionary<string, EtudeContainer.EtudeGeometry>();
       _objects = new Dictionary<string, EtudeContainer.EtudeObject>();
 
@@ -591,20 +591,20 @@ namespace Etude
 
         if( !_materials.ContainsKey( uid ) )
         {
-          EtudeContainer.EtudeMaterial m
-            = new EtudeContainer.EtudeMaterial();
+          EtudeMaterial m
+            = new EtudeMaterial();
 
-          m.uuid = uid;
-          m.type = "MeshPhongMaterial";
-          m.color = iColor;
-          m.ambient = m.color;
-          m.emissive = 0;
-          m.specular = m.color;
-          m.shininess = node.Glossiness; // todo: does this need scaling to e.g. [0,100]?
-          m.opacity = 1; // 128 - material.Transparency;
-          m.opacity = 1.0 - node.Transparency; // Revit MaterialNode has double Transparency in ?range?, three.js expects opacity in [0.0,1.0]
-          m.transparent = 0.0 < node.Transparency;
-          m.wireframe = false;
+          m.UUID = uid;
+          m.Type = "MeshPhongMaterial";
+          m.Color = iColor;
+          m.Ambient = m.Color;
+          m.Emissive = 0;
+          m.Specular = m.Color;
+          m.Shininess = node.Glossiness; // todo: does this need scaling to e.g. [0,100]?
+          m.Opacity = 1; // 128 - material.Transparency;
+          m.Opacity = 1.0 - node.Transparency; // Revit MaterialNode has double Transparency in ?range?, three.js expects opacity in [0.0,1.0]
+          m.Transparent = 0.0 < node.Transparency;
+          m.Wireframe = false;
 
           _materials.Add( uid, m );
         }
