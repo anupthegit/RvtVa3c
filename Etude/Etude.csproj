@@ -77,6 +77,8 @@
     <Compile Include="EtudeGeometryData.cs" />
     <Compile Include="EtudeMaterial.cs" />
     <Compile Include="EtudeObject.cs" />
+    <Compile Include="EtudeTexture.cs" />
+    <Compile Include="EtudeTextureConverter.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="ParameterFilter.cs">
       <SubType>Form</SubType>
@@ -89,6 +91,7 @@
     <Compile Include="Util.cs" />
     <Compile Include="EtudeExportContext.cs" />
     <Compile Include="EtudeContainer.cs" />
+    <Compile Include="WrappingType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Etude.addin" />

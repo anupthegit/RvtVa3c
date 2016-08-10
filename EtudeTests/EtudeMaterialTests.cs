@@ -1,6 +1,4 @@
 ﻿using Etude;
-using System;
-using System.Runtime.Serialization;
 using System.Linq;
 using Xunit;
 using Newtonsoft.Json;
@@ -45,7 +43,7 @@ namespace EtudeTests
             var attribute = typeof(EtudeMaterial).GetProperty(propertyName)
                 .GetCustomAttributes(typeof(JsonPropertyAttribute), false)
                 .OfType<JsonPropertyAttribute>().FirstOrDefault();
-            Assert.Equal(attribute.PropertyName, jsonName);
+            Assert.Equal( jsonName, attribute?.PropertyName);
         }
     }
 }

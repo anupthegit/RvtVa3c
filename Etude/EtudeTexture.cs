@@ -1,0 +1,19 @@
+﻿using System;
+using Newtonsoft.Json;
+
+namespace Etude
+{
+    [JsonConverter(typeof(EtudeTextureConverter))]
+    public class EtudeTexture
+    {
+        public string UUID { get; set; }
+        
+        public string Image { get; set; }
+
+        public WrappingType WrapS { get; set; } = WrappingType.ClampToEdge;
+
+        public WrappingType WrapT { get; set; } = WrappingType.ClampToEdge;
+
+        public Tuple<int,int> Repeat { get; set; } = new Tuple<int, int>(1,1);
+    }
+}

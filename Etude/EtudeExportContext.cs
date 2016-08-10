@@ -423,8 +423,7 @@ namespace Etude
       JsonSerializerSettings settings
         = new JsonSerializerSettings();
 
-      settings.NullValueHandling
-        = NullValueHandling.Ignore;
+      settings.NullValueHandling = NullValueHandling.Ignore;
 
       Formatting formatting
         = UserSettings.JsonIndented
@@ -584,28 +583,26 @@ namespace Etude
         // transparency, etc. to avoid duplicating
         // non-element material definitions.
 
-        int iColor = Util.ColorToInt( node.Color );
+        var iColor = Util.ColorToInt( node.Color );
 
-        string uid = string.Format( "MaterialNode_{0}_{1}",
-          iColor, Util.RealString( node.Transparency * 100 ) );
+        var uid = $"MaterialNode_{iColor}_{Util.RealString(node.Transparency*100)}";
 
         if( !_materials.ContainsKey( uid ) )
         {
-          EtudeMaterial m
-            = new EtudeMaterial();
-
-          m.UUID = uid;
-          m.Type = "MeshPhongMaterial";
-          m.Color = iColor;
-          m.Ambient = m.Color;
-          m.Emissive = 0;
-          m.Specular = m.Color;
-          m.Shininess = node.Glossiness; // todo: does this need scaling to e.g. [0,100]?
-          m.Opacity = 1; // 128 - material.Transparency;
-          m.Opacity = 1.0 - node.Transparency; // Revit MaterialNode has double Transparency in ?range?, three.js expects opacity in [0.0,1.0]
-          m.Transparent = 0.0 < node.Transparency;
-          m.Wireframe = false;
-
+            var m = new EtudeMaterial
+                {
+                    UUID = uid,
+                    Type = "MeshPhongMaterial",
+                    Color = iColor,
+                    Ambient = iColor,
+                    Emissive = 0,
+                    Specular = iColor,
+                    Shininess = node.Glossiness,
+                    Opacity = 1 - node.Transparency,
+                    Transparent = 0.0 < node.Transparency,
+                    Wireframe = false
+                };
+                    
           _materials.Add( uid, m );
         }
         SetCurrentMaterial( uid );
@@ -646,12 +643,10 @@ namespace Etude
     public RenderNodeAction OnElementBegin(
       ElementId elementId )
     {
-      Element e = _doc.GetElement( elementId );
-      string uid = e.UniqueId;
+      var e = _doc.GetElement( elementId );
+      var uid = e.UniqueId;
 
-      Debug.WriteLine( string.Format(
-        "OnElementBegin: id {0} category {1} name {2}",
-        elementId.IntegerValue, e.Category.Name, e.Name ) );
+      Debug.WriteLine($"OnElementBegin: id {elementId.IntegerValue} category {e.Category.Name} name {e.Name}");
 
       if( _objects.ContainsKey( uid ) )
       {
@@ -674,10 +669,7 @@ namespace Etude
 
       if( 1 < n )
       {
-        Debug.Print( "{0} has {1} materials: {2}",
-          Util.ElementDescription( e ), n,
-          string.Join( ", ", idsMaterialGeometry.Select(
-            id => _doc.GetElement( id ).Name ) ) );
+          Debug.Print($"{Util.ElementDescription(e)} has {n} materials: {string.Join(", ", idsMaterialGeometry.Select(id => _doc.GetElement(id).Name))}");
       }
 
       // We handle a current element, which may either
@@ -686,20 +678,21 @@ namespace Etude
       // multiple current child objects each with a 
       // separate current geometry.
 
-      _currentElement = new EtudeObject();
+        _currentElement = new EtudeObject
+        {
+            Name = Util.ElementDescription(e),
+            Material = _currentMaterialUid,
+            Matrix = new double[] {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+            Type = "RevitElement",
+            UUID = uid
+        };
 
-      _currentElement.Name = Util.ElementDescription( e );
-      _currentElement.Material = _currentMaterialUid;
-      _currentElement.Matrix = new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
-      _currentElement.Type = "RevitElement";
-      _currentElement.UUID = uid;
 
-      _currentObject = new Dictionary<string, EtudeObject>();
+        _currentObject = new Dictionary<string, EtudeObject>();
       _currentGeometry = new Dictionary<string, EtudeGeometry>();
       _vertices = new Dictionary<string, VertexLookupInt>();
 
-      if( null != e.Category
-        && null != e.Category.Material )
+      if( e.Category?.Material != null )
       {
         SetCurrentMaterial( e.Category.Material.UniqueId );
       }
@@ -716,9 +709,7 @@ namespace Etude
       Element e = _doc.GetElement( id );
       string uid = e.UniqueId;
 
-      Debug.WriteLine( string.Format(
-        "OnElementEnd: id {0} category {1} name {2}",
-        id.IntegerValue, e.Category.Name, e.Name ) );
+      Debug.WriteLine($"OnElementEnd: id {id.IntegerValue} category {e.Category.Name} name {e.Name}");
 
       if( _objects.ContainsKey( uid ) )
       {
