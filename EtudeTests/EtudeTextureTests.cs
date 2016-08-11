@@ -11,7 +11,7 @@ namespace EtudeTests
         {
             var texture = new EtudeTexture();
             Assert.Null(texture.UUID);
-            Assert.Null(texture.Image);
+            Assert.Null(texture.ImageId);
             Assert.Equal(WrappingType.ClampToEdge, texture.WrapS);
             Assert.Equal(WrappingType.ClampToEdge, texture.WrapT);
             Assert.Equal(new Tuple<int, int>(1,1), texture.Repeat);

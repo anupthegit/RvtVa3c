@@ -8,7 +8,7 @@ namespace Etude
     {
         public string UUID { get; set; }
         
-        public string Image { get; set; }
+        public string ImageId { get; set; }
 
         public WrappingType WrapS { get; set; } = WrappingType.ClampToEdge;
 
