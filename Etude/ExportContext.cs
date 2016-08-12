@@ -25,7 +25,7 @@ namespace Etude
   // Check for file size
   // Instance/type reuse
 
-  public class EtudeExportContext : IExportContext
+  public class ExportContext : IExportContext
   {
     /// <summary>
     /// Scale entire top level BIM object node in JSON
@@ -232,17 +232,17 @@ namespace Etude
 
     Document _doc;
     string _filename;
-    EtudeContainer _container;
-    Dictionary<string, EtudeMaterial> _materials;
-    Dictionary<string, EtudeObject> _objects;
-    Dictionary<string, EtudeGeometry> _geometries;
+    Container _container;
+    Dictionary<string, Material> _materials;
+    Dictionary<string, Model> _objects;
+    Dictionary<string, Geometry> _geometries;
 
-    EtudeObject _currentElement;
+    Model _currentElement;
 
     // Keyed on material uid to handle several materials per element:
 
-    Dictionary<string, EtudeObject> _currentObject;
-    Dictionary<string, EtudeGeometry> _currentGeometry;
+    Dictionary<string, Model> _currentObject;
+    Dictionary<string, Geometry> _currentGeometry;
     Dictionary<string, VertexLookupInt> _vertices;
 
     Stack<ElementId> _elementStack = new Stack<ElementId>();
@@ -252,7 +252,7 @@ namespace Etude
 
     public string myjs = null;
 
-    EtudeObject CurrentObjectPerMaterial
+    Model CurrentObjectPerMaterial
     {
       get
       {
@@ -260,7 +260,7 @@ namespace Etude
       }
     }
 
-    EtudeGeometry CurrentGeometryPerMaterial
+    Geometry CurrentGeometryPerMaterial
     {
       get
       {
@@ -296,11 +296,11 @@ namespace Etude
     {
       if( !_materials.ContainsKey( uidMaterial ) )
       {
-        Material material = _doc.GetElement(
-          uidMaterial ) as Material;
+                Autodesk.Revit.DB.Material material = _doc.GetElement(
+          uidMaterial) as Autodesk.Revit.DB.Material;
 
-        EtudeMaterial m
-          = new EtudeMaterial();
+        Material m
+          = new Material();
 
         //m.metadata = new EtudeMaterialMetadata();
         //m.metadata.type = "material";
@@ -329,7 +329,7 @@ namespace Etude
       {
         Debug.Assert( !_currentGeometry.ContainsKey( uidMaterial ), "expected same keys in both" );
 
-        _currentObject.Add( uidMaterial, new EtudeObject() );
+        _currentObject.Add( uidMaterial, new Model() );
         CurrentObjectPerMaterial.Name = _currentElement.Name;
         CurrentObjectPerMaterial.Geometry = uid_per_material;
         CurrentObjectPerMaterial.Material = _currentMaterialUid;
@@ -340,10 +340,10 @@ namespace Etude
 
       if( !_currentGeometry.ContainsKey( uidMaterial ) )
       {
-        _currentGeometry.Add( uidMaterial, new EtudeGeometry() );
+        _currentGeometry.Add( uidMaterial, new Geometry() );
         CurrentGeometryPerMaterial.UUID = uid_per_material;
         CurrentGeometryPerMaterial.Type = "Geometry";
-        CurrentGeometryPerMaterial.Data = new EtudeGeometryData();
+        CurrentGeometryPerMaterial.Data = new GeometryData();
         CurrentGeometryPerMaterial.Data.Faces = new List<int>();
         CurrentGeometryPerMaterial.Data.Vertices = new List<double>();
         CurrentGeometryPerMaterial.Data.Normals = new List<double>();
@@ -361,7 +361,7 @@ namespace Etude
       }
     }
 
-    public EtudeExportContext( Document document, string filename )
+    public ExportContext( Document document, string filename )
     {
       _doc = document;
       _filename = filename;
@@ -369,21 +369,21 @@ namespace Etude
 
     public bool Start()
     {
-      _materials = new Dictionary<string, EtudeMaterial>();
-      _geometries = new Dictionary<string, EtudeGeometry>();
-      _objects = new Dictionary<string, EtudeObject>();
+      _materials = new Dictionary<string, Material>();
+      _geometries = new Dictionary<string, Geometry>();
+      _objects = new Dictionary<string, Model>();
 
       _transformationStack.Push( Transform.Identity );
 
-      _container = new EtudeContainer();
+      _container = new Container();
 
       _container.Metadata = new Metadata();
       _container.Metadata.Type = "Object";
       _container.Metadata.Version = 4.3;
       _container.Metadata.Generator = "Etude Revit Etude exporter";
-      _container.Geometries = new List<EtudeGeometry>();
+      _container.Geometries = new List<Geometry>();
 
-      _container.Object = new EtudeObject();
+      _container.Object = new Model();
       _container.Object.UUID = _doc.ActiveView.UniqueId;
       _container.Object.Name = "BIM " + _doc.Title;
       _container.Object.Type = "Scene";
@@ -589,7 +589,7 @@ namespace Etude
 
         if( !_materials.ContainsKey( uid ) )
         {
-            var m = new EtudeMaterial
+            var m = new Material
                 {
                     UUID = uid,
                     Type = "MeshPhongMaterial",
@@ -678,7 +678,7 @@ namespace Etude
       // multiple current child objects each with a 
       // separate current geometry.
 
-        _currentElement = new EtudeObject
+        _currentElement = new Model
         {
             Name = Util.ElementDescription(e),
             Material = _currentMaterialUid,
@@ -688,8 +688,8 @@ namespace Etude
         };
 
 
-        _currentObject = new Dictionary<string, EtudeObject>();
-      _currentGeometry = new Dictionary<string, EtudeGeometry>();
+        _currentObject = new Dictionary<string, Model>();
+      _currentGeometry = new Dictionary<string, Geometry>();
       _vertices = new Dictionary<string, VertexLookupInt>();
 
       if( e.Category?.Material != null )
@@ -727,12 +727,12 @@ namespace Etude
 
       int n = materials.Count;
 
-      _currentElement.Children = new List<EtudeObject>( n );
+      _currentElement.Children = new List<Model>( n );
 
       foreach( string material in materials )
       {
-        EtudeObject obj = _currentObject[material];
-        EtudeGeometry geo = _currentGeometry[material];
+        Model obj = _currentObject[material];
+        Geometry geo = _currentGeometry[material];
 
         foreach( KeyValuePair<PointInt, int> p in _vertices[material] )
         {

@@ -5,7 +5,7 @@ namespace Etude
     /// <summary>
     /// Based on MeshPhongMaterial obtained by exporting a cube from the thr
     /// </summary>
-    public class EtudeMaterial
+    public class Material
     {
         [JsonProperty("uuid")]
         public string UUID { get; set; }

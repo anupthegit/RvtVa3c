@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace Etude
 {
-    public class EtudeTextureConverter : JsonConverter
+    public class TextureConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var texture = (EtudeTexture)value;
+            var texture = (Texture)value;
             writer.WriteStartObject();
             writer.WritePropertyName("uuid");
             writer.WriteValue(texture.UUID);
@@ -31,7 +31,7 @@ namespace Etude
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(EtudeTexture);
+            return objectType == typeof(Texture);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

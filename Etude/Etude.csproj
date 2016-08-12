@@ -73,12 +73,12 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="EtudeGeometry.cs" />
-    <Compile Include="EtudeGeometryData.cs" />
-    <Compile Include="EtudeMaterial.cs" />
-    <Compile Include="EtudeObject.cs" />
-    <Compile Include="EtudeTexture.cs" />
-    <Compile Include="EtudeTextureConverter.cs" />
+    <Compile Include="Geometry.cs" />
+    <Compile Include="GeometryData.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Texture.cs" />
+    <Compile Include="TextureConverter.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="ParameterFilter.cs">
       <SubType>Form</SubType>
@@ -89,8 +89,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="EtudeExportContext.cs" />
-    <Compile Include="EtudeContainer.cs" />
+    <Compile Include="ExportContext.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="WrappingType.cs" />
   </ItemGroup>
   <ItemGroup>

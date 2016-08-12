@@ -13,15 +13,15 @@ namespace Etude
   /// reverse engineered ftom JSON files exported 
   /// by the three.js and Etude editors.
   /// </summary>
-  public class EtudeContainer
+  public class Container
   {
     [JsonProperty("metadata")]
     public Metadata Metadata { get; set; }
     [JsonProperty("object")]
-    public EtudeObject Object { get; set; }
+    public Model Object { get; set; }
     [JsonProperty("geometries")]
-    public List<EtudeGeometry> Geometries;
+    public List<Geometry> Geometries;
     [JsonProperty("materials")]
-    public List<EtudeMaterial> Materials;
+    public List<Material> Materials;
   }
 }

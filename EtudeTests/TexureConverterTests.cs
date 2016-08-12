@@ -10,22 +10,22 @@ using System.Text;
 
 namespace EtudeTests
 {
-    public class EtudeTexureConverterTests
+    public class TexureConverterTests
     {
         [Theory]
-        [InlineData(typeof(EtudeTexture), true)]
-        [InlineData(typeof(EtudeMaterial), false)]
+        [InlineData(typeof(Texture), true)]
+        [InlineData(typeof(Material), false)]
         public void CanConvertEtudeTexture(Type type, bool expected)
         {
-            var converter = new EtudeTextureConverter();
+            var converter = new TextureConverter();
             Assert.Equal(expected, converter.CanConvert(type));
         }
     
         [Fact]
         public void WriteJson_Should_InvokeMethodsProperly()
         {
-            var converter = new EtudeTextureConverter();
-            var texture = new EtudeTexture();
+            var converter = new TextureConverter();
+            var texture = new Texture();
             var mockedWriter = new Mock<JsonWriter>();
             converter.WriteJson(mockedWriter.Object, texture, JsonSerializer.CreateDefault());
 
@@ -44,8 +44,8 @@ namespace EtudeTests
         [Fact]
         public void WriteJson_Should_OutputCorrectValues()
         {
-            var converter = new EtudeTextureConverter();
-            var texture = new EtudeTexture()
+            var converter = new TextureConverter();
+            var texture = new Texture()
             {
                 UUID = "testUuid",
                 ImageId = "testImageId",
@@ -53,15 +53,15 @@ namespace EtudeTests
                 WrapT = WrappingType.ClampToEdge,
                 Repeat = new Tuple<int, int>(1,1)
             };
-            var sb = new StringBuilder();
-            var streamWriter = new StringWriter(sb);
-            var jsonWriter = new JsonTextWriter(streamWriter);
+            var stringBuilder = new StringBuilder();
+            var stringWriter = new StringWriter(stringBuilder);
+            var jsonWriter = new JsonTextWriter(stringWriter);
 
             converter.WriteJson(jsonWriter, texture, JsonSerializer.CreateDefault());
 
             string expected = "{\"uuid\":\"testUuid\",\"image\":\"testImageId\",\"wrap\":[1002,1001],\"repeat\":[1,1]}";
 
-            Assert.Equal(expected, sb.ToString());
+            Assert.Equal(expected, stringBuilder.ToString());
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Etude
 {
-    public class EtudeObject
+    public class Model
     {
         [JsonProperty("uuid")]
         public string UUID { get; set; }
@@ -18,7 +18,7 @@ namespace Etude
         [JsonProperty("matrix")]
         public double[] Matrix { get; set; } // [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
         [JsonProperty("children")]
-        public List<EtudeObject> Children { get; set; }
+        public List<Model> Children { get; set; }
 
         // The following are only on the children:
 

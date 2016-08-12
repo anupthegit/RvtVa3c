@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace EtudeTests
 {
-    public class EtudeMaterialTests
+    public class MaterialTests
     {
         [Fact]
         public void ItInitsProperly()
         {
-            var material = new EtudeMaterial();
+            var material = new Material();
             Assert.Null(material.UUID);
             Assert.Null(material.Name);
             Assert.Equal(material.Type, "MeshPhongMaterial");
@@ -40,7 +40,7 @@ namespace EtudeTests
         [InlineData("Map", "map")]
         public void ItHasProperDataMemberNames(string propertyName, string jsonName)
         {
-            var attribute = typeof(EtudeMaterial).GetProperty(propertyName)
+            var attribute = typeof(Material).GetProperty(propertyName)
                 .GetCustomAttributes(typeof(JsonPropertyAttribute), false)
                 .OfType<JsonPropertyAttribute>().FirstOrDefault();
             Assert.Equal( jsonName, attribute?.PropertyName);

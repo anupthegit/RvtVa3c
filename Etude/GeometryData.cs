@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Etude
 {
-    public class EtudeGeometryData
+    public class GeometryData
     {
         [JsonProperty("vertices")]
         public List<double> Vertices { get; set; } // millimetres

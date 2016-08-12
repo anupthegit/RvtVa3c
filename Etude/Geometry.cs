@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Etude
 {
-    public class EtudeGeometry
+    public class Geometry
     {
         [JsonProperty("uuid")]
         public string UUID { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; } = "Geometry";
         [JsonProperty("data")]
-        public EtudeGeometryData Data { get; set; }
+        public GeometryData Data { get; set; }
         //[DataMember] public double scale { get; set; }
         [JsonProperty("materials")]
-        public List<EtudeMaterial> Materials { get; set; }
+        public List<Material> Materials { get; set; }
     }
 }

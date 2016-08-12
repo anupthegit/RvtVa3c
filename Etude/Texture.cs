@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 
 namespace Etude
 {
-    [JsonConverter(typeof(EtudeTextureConverter))]
-    public class EtudeTexture
+    [JsonConverter(typeof(TextureConverter))]
+    public class Texture
     {
         public string UUID { get; set; }
         

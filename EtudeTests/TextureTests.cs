@@ -4,12 +4,12 @@ using Xunit;
 
 namespace EtudeTests
 {
-    public class EtudeTextureTests
+    public class TextureTests
     {
         [Fact]
         public void ItShouldInstantiateProperly()
         {
-            var texture = new EtudeTexture();
+            var texture = new Texture();
             Assert.Null(texture.UUID);
             Assert.Null(texture.ImageId);
             Assert.Equal(WrappingType.ClampToEdge, texture.WrapS);

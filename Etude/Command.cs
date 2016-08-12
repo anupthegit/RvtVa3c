@@ -63,8 +63,8 @@ namespace Etude
 
       Document doc = view3d.Document;
 
-      EtudeExportContext context
-        = new EtudeExportContext( doc, filename );
+      ExportContext context
+        = new ExportContext( doc, filename );
 
       CustomExporter exporter = new CustomExporter(
         doc, context );
